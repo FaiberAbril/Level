@@ -1,0 +1,89 @@
+{
+  "usuarios": {
+    "adrian_abril_0": {
+      "personaje": {
+        "nombre": "ADRIAN ABRIL",
+        "clase": "Guerrero ⚔️",
+        "nivel": 1,
+        "xp": 0,
+        "stats": {
+          "fuerza": 0,
+          "mente": 0,
+          "vitalidad": 0,
+          "disciplina": 0
+        },
+        "racha": 0,
+        "ultimo_dia": null,
+        "total_completados": 0
+      },
+      "habitos": [
+        {
+          "id": 1,
+          "nombre": "Ejercicio 30 min",
+          "categoria": "fisico",
+          "xp": 30,
+          "icono": "💪",
+          "descripcion": "Cardio, pesas o cualquier actividad física"
+        },
+        {
+          "id": 2,
+          "nombre": "Leer 20 páginas",
+          "categoria": "mental",
+          "xp": 25,
+          "icono": "📚",
+          "descripcion": "Libros, artículos o material educativo"
+        },
+        {
+          "id": 3,
+          "nombre": "Meditación 10 min",
+          "categoria": "salud",
+          "xp": 20,
+          "icono": "🧘",
+          "descripcion": "Mindfulness o respiración consciente"
+        },
+        {
+          "id": 4,
+          "nombre": "Sin redes sociales",
+          "categoria": "disciplina",
+          "xp": 35,
+          "icono": "🎯",
+          "descripcion": "Evitar Instagram, TikTok, Twitter por un día"
+        },
+        {
+          "id": 5,
+          "nombre": "Tomar 2L de agua",
+          "categoria": "salud",
+          "xp": 15,
+          "icono": "💧",
+          "descripcion": "Hidratación diaria completa"
+        },
+        {
+          "id": 6,
+          "nombre": "Escribir en diario",
+          "categoria": "mental",
+          "xp": 20,
+          "icono": "✍️",
+          "descripcion": "Reflexiones, metas o gratitud"
+        },
+        {
+          "id": 7,
+          "nombre": "Dormir 8 horas",
+          "categoria": "salud",
+          "xp": 25,
+          "icono": "🌙",
+          "descripcion": "Descanso reparador completo"
+        },
+        {
+          "id": 8,
+          "nombre": "Caminar 10,000 pasos",
+          "categoria": "fisico",
+          "xp": 30,
+          "icono": "🏃",
+          "descripcion": "Actividad física diaria mínima"
+        }
+      ],
+      "registro": [],
+      "next_id": 9
+    }
+  }
+}

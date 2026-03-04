@@ -1,0 +1,113 @@
+{
+  "personaje": {
+    "nombre": "FAIBER ADRIAN ABRIL",
+    "clase": "Guerrero ⚔️",
+    "nivel": 2,
+    "xp": 40,
+    "stats": {
+      "fuerza": 2,
+      "mente": 0,
+      "vitalidad": 2,
+      "disciplina": 1
+    },
+    "racha": 1,
+    "ultimo_dia": "2026-03-04",
+    "total_completados": 5
+  },
+  "habitos": [
+    {
+      "id": 1,
+      "nombre": "Ejercicio 30 min",
+      "categoria": "fisico",
+      "xp": 30,
+      "icono": "💪"
+    },
+    {
+      "id": 2,
+      "nombre": "Leer 20 páginas",
+      "categoria": "mental",
+      "xp": 25,
+      "icono": "📚"
+    },
+    {
+      "id": 3,
+      "nombre": "Meditación 10 min",
+      "categoria": "salud",
+      "xp": 20,
+      "icono": "🧘"
+    },
+    {
+      "id": 4,
+      "nombre": "Sin redes sociales",
+      "categoria": "disciplina",
+      "xp": 35,
+      "icono": "🎯"
+    },
+    {
+      "id": 5,
+      "nombre": "Tomar 2L de agua",
+      "categoria": "salud",
+      "xp": 15,
+      "icono": "💧"
+    },
+    {
+      "id": 6,
+      "nombre": "Escribir en diario",
+      "categoria": "mental",
+      "xp": 20,
+      "icono": "✍️"
+    },
+    {
+      "id": 7,
+      "nombre": "Dormir 8 horas",
+      "categoria": "salud",
+      "xp": 25,
+      "icono": "🌙"
+    },
+    {
+      "id": 8,
+      "nombre": "Caminar 10,000 pasos",
+      "categoria": "fisico",
+      "xp": 30,
+      "icono": "🏃"
+    }
+  ],
+  "registro": [
+    {
+      "fecha": "2026-03-04",
+      "habito_id": 1,
+      "nombre": "Ejercicio 30 min",
+      "categoria": "fisico",
+      "xp": 30
+    },
+    {
+      "fecha": "2026-03-04",
+      "habito_id": 8,
+      "nombre": "Caminar 10,000 pasos",
+      "categoria": "fisico",
+      "xp": 30
+    },
+    {
+      "fecha": "2026-03-04",
+      "habito_id": 3,
+      "nombre": "Meditación 10 min",
+      "categoria": "salud",
+      "xp": 20
+    },
+    {
+      "fecha": "2026-03-04",
+      "habito_id": 7,
+      "nombre": "Dormir 8 horas",
+      "categoria": "salud",
+      "xp": 25
+    },
+    {
+      "fecha": "2026-03-04",
+      "habito_id": 4,
+      "nombre": "Sin redes sociales",
+      "categoria": "disciplina",
+      "xp": 35
+    }
+  ],
+  "next_id": 9
+}
