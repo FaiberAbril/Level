@@ -19,9 +19,9 @@
       "habitos": [
         {
           "id": 1,
-          "nombre": "Ejercicio 30 min",
+          "nombre": "GYM",
           "categoria": "fisico",
-          "xp": 30,
+          "xp": 10,
           "icono": "💪",
           "descripcion": "Cardio, pesas o cualquier actividad física"
         },
@@ -56,14 +56,6 @@
           "xp": 15,
           "icono": "💧",
           "descripcion": "Hidratación diaria completa"
-        },
-        {
-          "id": 6,
-          "nombre": "Escribir en diario",
-          "categoria": "mental",
-          "xp": 20,
-          "icono": "✍️",
-          "descripcion": "Reflexiones, metas o gratitud"
         },
         {
           "id": 7,
