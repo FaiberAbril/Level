@@ -1,0 +1,8 @@
+﻿streamlit
+pandas
+numpy
+python-docx
+openpyxl
+pyperclip
+xlrd
+matplotlib
