@@ -6,10 +6,16 @@
 
 import streamlit as st
 import json, os
-from datetime import date, timedelta
+import pytz
+from datetime import datetime, date, timedelta
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
+
+# Fecha correcta según zona horaria Colombia (UTC-5)
+def hoy_colombia():
+    tz = pytz.timezone("America/Bogota")
+    return datetime.now(tz).date()
 
 # ── CONFIGURACIÓN ────────────────────────────────────────────
 st.set_page_config(page_title="⚔️ RPG Hábitos", page_icon="⚔️", layout="centered")
@@ -140,14 +146,17 @@ EVOLUCIONES = [
 ]
 
 HABITOS_DEFAULT = [
-    {"id": 1, "nombre": "Ejercicio 30 min",    "categoria": "fisico",     "xp": 30, "icono": "💪", "descripcion": "Cardio, pesas o cualquier actividad física"},
-    {"id": 2, "nombre": "Leer 20 páginas",      "categoria": "mental",     "xp": 25, "icono": "📚", "descripcion": "Libros, artículos o material educativo"},
-    {"id": 3, "nombre": "Meditación 10 min",    "categoria": "salud",      "xp": 20, "icono": "🧘", "descripcion": "Mindfulness o respiración consciente"},
-    {"id": 4, "nombre": "Sin redes sociales",   "categoria": "disciplina", "xp": 35, "icono": "🎯", "descripcion": "Evitar Instagram, TikTok, Twitter por un día"},
-    {"id": 5, "nombre": "Tomar 2L de agua",     "categoria": "salud",      "xp": 15, "icono": "💧", "descripcion": "Hidratación diaria completa"},
-    {"id": 6, "nombre": "Escribir en diario",   "categoria": "mental",     "xp": 20, "icono": "✍️", "descripcion": "Reflexiones, metas o gratitud"},
-    {"id": 7, "nombre": "Dormir 8 horas",       "categoria": "salud",      "xp": 25, "icono": "🌙", "descripcion": "Descanso reparador completo"},
-    {"id": 8, "nombre": "Caminar 10,000 pasos", "categoria": "fisico",     "xp": 30, "icono": "🏃", "descripcion": "Actividad física diaria mínima"},
+    {"id": 1,  "nombre": "Ejercicio 30 min",    "categoria": "fisico",     "xp": 30, "icono": "💪", "descripcion": "Cardio, pesas o cualquier actividad física"},
+    {"id": 2,  "nombre": "Leer 20 páginas",      "categoria": "mental",     "xp": 25, "icono": "📚", "descripcion": "Libros, artículos o material educativo"},
+    {"id": 3,  "nombre": "Meditación 10 min",    "categoria": "salud",      "xp": 20, "icono": "🧘", "descripcion": "Mindfulness o respiración consciente"},
+    {"id": 4,  "nombre": "Sin redes sociales",   "categoria": "disciplina", "xp": 35, "icono": "🎯", "descripcion": "Evitar Instagram, TikTok, Twitter por un día"},
+    {"id": 5,  "nombre": "Tomar 2L de agua",     "categoria": "salud",      "xp": 15, "icono": "💧", "descripcion": "Hidratación diaria completa"},
+    {"id": 6,  "nombre": "Escribir en diario",   "categoria": "mental",     "xp": 20, "icono": "✍️", "descripcion": "Reflexiones, metas o gratitud"},
+    {"id": 7,  "nombre": "Dormir 8 horas",       "categoria": "salud",      "xp": 25, "icono": "🌙", "descripcion": "Descanso reparador completo"},
+    {"id": 8,  "nombre": "Caminar 10,000 pasos", "categoria": "fisico",     "xp": 30, "icono": "🏃", "descripcion": "Actividad física diaria mínima"},
+    {"id": 9,  "nombre": "Montar en bicicleta",  "categoria": "fisico",     "xp": 35, "icono": "🚴", "descripcion": "Ciclismo recreativo o de entrenamiento"},
+    {"id": 10, "nombre": "Nadar",                "categoria": "fisico",     "xp": 35, "icono": "🏊", "descripcion": "Natación como ejercicio completo"},
+    {"id": 11, "nombre": "No quejarse",          "categoria": "disciplina", "xp": 30, "icono": "🤐", "descripcion": "Pasar el día sin quejarse ni victimizarse"},
 ]
 
 # ── PERSISTENCIA ─────────────────────────────────────────────
@@ -170,7 +179,7 @@ def usuario_default(nombre, clase):
         },
         "habitos": HABITOS_DEFAULT,
         "registro": [],
-        "next_id": 9,
+        "next_id": 12,
     }
 
 # ── HELPERS ──────────────────────────────────────────────────
@@ -195,7 +204,7 @@ def calcular_racha(registro):
     return racha
 
 def registros_hoy(data):
-    return [r for r in data["registro"] if r["fecha"] == str(date.today())]
+    return [r for r in data["registro"] if r["fecha"] == str(hoy_colombia())]
 
 def xp_hoy(data):
     return sum(r["xp"] for r in registros_hoy(data))
@@ -376,13 +385,13 @@ def pantalla_main():
         with col_fecha:
             fecha_sel = st.date_input(
                 "📅 Registrar para el día:",
-                value=date.today(),
-                max_value=date.today(),
+                value=hoy_colombia(),
+                max_value=hoy_colombia(),
                 format="DD/MM/YYYY",
                 key="fecha_registro"
             )
         hoy_str  = str(fecha_sel)
-        es_hoy   = fecha_sel == date.today()
+        es_hoy   = fecha_sel == hoy_colombia()
 
         # Hábitos completados en la fecha seleccionada
         completados = {
@@ -594,7 +603,7 @@ def pantalla_main():
         else:
             df = pd.DataFrame(data["registro"])
             df["fecha"] = pd.to_datetime(df["fecha"])
-            hoy_d = date.today()
+            hoy_d = hoy_colombia()
             fechas = [str(hoy_d - timedelta(days=i)) for i in range(13,-1,-1)]
             xp_dia = df.groupby(df["fecha"].dt.strftime("%Y-%m-%d"))["xp"].sum().to_dict()
             y_xp   = [xp_dia.get(f,0) for f in fechas]
