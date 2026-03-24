@@ -371,11 +371,38 @@ def pantalla_main():
 
     # ══ TAB 1: REGISTRAR HÁBITOS DEL DÍA ════════════════════
     with tab1:
-        completados = completados_hoy(data)
-        hoy_str     = str(date.today())
-        total_h     = len(data["habitos"])
+        # ── Selector de fecha ────────────────────────────────
+        col_fecha, col_info = st.columns([1, 2])
+        with col_fecha:
+            fecha_sel = st.date_input(
+                "📅 Registrar para el día:",
+                value=date.today(),
+                max_value=date.today(),
+                format="DD/MM/YYYY",
+                key="fecha_registro"
+            )
+        hoy_str  = str(fecha_sel)
+        es_hoy   = fecha_sel == date.today()
 
-        st.markdown(f"<p style='color:#90a4ae'>📅 {date.today().strftime('%d/%m/%Y')} &nbsp;·&nbsp; {len(completados)}/{total_h} completados hoy</p>", unsafe_allow_html=True)
+        # Hábitos completados en la fecha seleccionada
+        completados = {
+            r["habito_id"] for r in data["registro"]
+            if r["fecha"] == hoy_str
+        }
+        total_h = len(data["habitos"])
+
+        with col_info:
+            st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+            label_fecha = "hoy" if es_hoy else fecha_sel.strftime('%d/%m/%Y')
+            st.markdown(
+                f"<div style='background:#263238;border-radius:10px;padding:10px 14px;margin-top:8px'>"
+                f"<span style='color:#F5B800;font-weight:bold'>{len(completados)}/{total_h}</span>"
+                f"<span style='color:#90a4ae'> completados el {label_fecha}</span>"
+                f"{'<span style=\"color:#FF6D00;margin-left:8px\">· HOY</span>' if es_hoy else '<span style=\"color:#42a5f5;margin-left:8px\">· Fecha anterior</span>'}"
+                f"</div>",
+                unsafe_allow_html=True
+            )
+        st.markdown("---")
 
         if not data["habitos"]:
             st.warning("No tienes hábitos todavía. Ve a la pestaña **🛠️ Mis Hábitos** y añade los tuyos.")
@@ -402,20 +429,30 @@ def pantalla_main():
                         if done:
                             st.markdown("<div style='color:#66bb6a;font-size:22px;text-align:center;margin-top:4px'>✓</div>", unsafe_allow_html=True)
                         else:
-                            if st.button("✓ Hecho", key=f"done_{h['id']}"):
+                            if st.button("✓ Hecho", key=f"done_{h['id']}_{hoy_str}"):
                                 stat = CATEGORIAS[h["categoria"]]["stat"]
-                                data["registro"].append({
+                                # Agregar al registro con la fecha seleccionada
+                                todos["usuarios"][uid]["registro"].append({
                                     "fecha": hoy_str, "habito_id": h["id"],
                                     "nombre": h["nombre"], "categoria": h["categoria"], "xp": h["xp"]
                                 })
-                                p["xp"] += h["xp"]
-                                p["stats"][stat] += 1
-                                p["total_completados"] += 1
-                                p["ultimo_dia"] = hoy_str
-                                subio = subir_niveles(p)
+                                # Actualizar stats del personaje
+                                todos["usuarios"][uid]["personaje"]["xp"] += h["xp"]
+                                todos["usuarios"][uid]["personaje"]["stats"][stat] += 1
+                                todos["usuarios"][uid]["personaje"]["total_completados"] += 1
+                                todos["usuarios"][uid]["personaje"]["ultimo_dia"] = hoy_str
+                                # Subir niveles si corresponde
+                                p_ref = todos["usuarios"][uid]["personaje"]
+                                subio = False
+                                while p_ref["xp"] >= xp_necesario(p_ref["nivel"]):
+                                    p_ref["xp"] -= xp_necesario(p_ref["nivel"])
+                                    p_ref["nivel"] += 1
+                                    subio = True
+                                # ✅ Reasignar explícitamente para que Streamlit detecte el cambio
+                                st.session_state.todos = todos
                                 guardar_todos(todos)
                                 if subio:
-                                    st.session_state.nivel_up = get_evolucion(p["nivel"])
+                                    st.session_state.nivel_up = get_evolucion(p_ref["nivel"])
                                 st.rerun()
 
         # NIVEL UP
